@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Throttle</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+
+        padding: 0;
+        margin: 0;
+
+        font-size: 40px;
+      }
+      .banner {
+        margin: auto;
+      }
+      p {
+        min-height: 1em;
+        line-height: 1em;
+        font-size: 1em;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="banner">
+      <p></p>
+    </div>
+
+    <script>
+      const throttle = (fn, ms) => {
+        let isThrottled = false;
+        let savedArgs;
+        let savedThis;
+
+        return function wrapper() {
+          if (isThrottled) {
+            savedArgs = arguments;
+            savedThis = this;
+            return;
+          }
+
+          fn.apply(this, arguments);
+
+          isThrottled = true;
+
+          setTimeout(() => {
+            isThrottled = false;
+            if (savedArgs) {
+              wrapper.apply(savedThis, savedArgs);
+              savedArgs = savedThis = null;
+            }
+          }, ms);
+        };
+      };
+
+      function outputTime() {
+        document.querySelector("p").innerText = new Date();
+      }
+
+      outputTime = throttle(outputTime, 3000);
+
+      setInterval(outputTime, 1000);
+    </script>
+  </body>
+</html>
