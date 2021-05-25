@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deboubce</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+
+        padding: 0;
+        margin: 0;
+
+        font-size: 40px;
+      }
+      .banner {
+        margin: auto;
+      }
+      input {
+        padding: 20px;
+        font-size: 1em;
+      }
+      p {
+        min-height: 1em;
+        line-height: 1em;
+        font-size: 1em;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="banner">
+      <input />
+      <p></p>
+    </div>
+
+    <script>
+      const debounce = (fn, ms) => {
+        let timeout;
+        return (args) => {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => {
+            fn(args);
+          }, ms);
+        };
+      };
+
+      document.querySelector("input").addEventListener(
+        "keyup",
+        debounce((e) => {
+          document.querySelector("p").innerText = e.target.value;
+        }, 500)
+      );
+    </script>
+  </body>
+</html>
